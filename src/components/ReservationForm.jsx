@@ -20,6 +20,8 @@ const ReservationForm = () => {
   const [stealDetailError, setStealDetailError] = useState(null);
   const [numberOfPeopleError, setNumberOfPeopleError] = useState(null);
 
+  const apiGatewayUrl = 'https://tj3alvdeza.execute-api.ap-northeast-1.amazonaws.com/development';
+
   const onBlurField = (fieldName) => {
     switch (fieldName) {
       case 'name':
@@ -64,7 +66,7 @@ const ReservationForm = () => {
   const onSubmit = async(data) => {
     // フォームが送信されたときの処理
     try {
-      const response = await fetch('https://localhost:8080/submit-form', {
+      const response = await fetch(apiGatewayUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
