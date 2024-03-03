@@ -20,4 +20,4 @@ ENTRYPOINT ["/functions/send_mail"]
 # ローカル実行用
 FROM public.ecr.aws/lambda/provided:al2 as local
 COPY --from=builder /functions /functions
-ENTRYPOINT ["/usr/local/bin/aws-lambda-rie"]
+ENTRYPOINT ["/functions/send_mail"]
