@@ -20,7 +20,7 @@ const ReservationForm = () => {
   const [stealDetailError, setStealDetailError] = useState(null);
   const [numberOfPeopleError, setNumberOfPeopleError] = useState(null);
 
-  const apiGatewayUrl = 'https://tj3alvdeza.execute-api.ap-northeast-1.amazonaws.com/development';
+  const apiGatewayUrl = 'https://tj3alvdeza.execute-api.ap-northeast-1.amazonaws.com/development/send';
 
   const onBlurField = (fieldName) => {
     switch (fieldName) {
@@ -65,6 +65,8 @@ const ReservationForm = () => {
 
   const onSubmit = async(data) => {
     // フォームが送信されたときの処理
+    console.log(data)
+    /*
     try {
       const response = await fetch(apiGatewayUrl, {
         method: 'POST',
@@ -84,6 +86,7 @@ const ReservationForm = () => {
     } catch (error) {
       console.error('There was an error:', error);
     }
+    */
   };
 
   const isFormValid = Object.keys(errors).length === 0; // 全てのエラーがないことを確認
