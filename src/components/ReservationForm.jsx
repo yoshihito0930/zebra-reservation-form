@@ -66,9 +66,9 @@ const ReservationForm = () => {
   const onSubmit = async(data) => {
   // リクエストデータを準備
     const requestData = {
-      body: JSON.stringify(data),
-      httpMethod: 'POST',
-      resource: '/send'
+      "body": JSON.stringify(data),
+      "httpMethod":'POST',
+      "resource": '/send'
     };
 
     console.log('Sending HTTP request:', requestData);
