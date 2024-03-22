@@ -20,7 +20,7 @@ const ReservationForm = () => {
   const [stealDetailError, setStealDetailError] = useState(null);
   const [numberOfPeopleError, setNumberOfPeopleError] = useState(null);
 
-  const apiGatewayUrl = 'https://tj3alvdeza.execute-api.ap-northeast-1.amazonaws.com/development';
+  const apiGatewayUrl = 'https://tj3alvdeza.execute-api.ap-northeast-1.amazonaws.com/development/send';
 
   const onBlurField = (fieldName) => {
     switch (fieldName) {
