@@ -71,6 +71,8 @@ const ReservationForm = () => {
       resource: '/send'
     };
 
+    console.log('Sending HTTP request:', requestData);
+
   // フォームが送信されたときの処理
     try {
       const response = await fetch(apiGatewayUrl, {
@@ -80,8 +82,6 @@ const ReservationForm = () => {
         },
         body: JSON.stringify(requestData),
       });
-
-      console.log(response)
   
       if (!response.ok) {
         throw new Error('Network response was not ok');
