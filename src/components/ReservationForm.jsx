@@ -309,7 +309,7 @@ const ReservationForm = () => {
                   <input
                     type="radio"
                     {...register('reservationType', { required: true })}
-                    value="standard"
+                    value="本予約"
                     className='checkbox-style'
                     id="standardReservation"
                   />
@@ -319,7 +319,7 @@ const ReservationForm = () => {
                   <input
                     type="radio"
                     {...register('reservationType', { required: true })}
-                    value="temporary"
+                    value="仮予約"
                     className='checkbox-style'
                     id="temporaryReservation"
                   />
@@ -370,7 +370,7 @@ const ReservationForm = () => {
                   <input
                     type="radio"
                     {...register('stealContent', { required: true })}
-                    value="steal"
+                    value="スチール撮影"
                     className='checkbox-style'
                     id="steal"
                   />
@@ -380,7 +380,7 @@ const ReservationForm = () => {
                   <input
                     type="radio"
                     {...register('stealContent', { required: true })}
-                    value="movie"
+                    value="ムービー撮影"
                     className='checkbox-style'
                     id="movie"
                   />
@@ -390,7 +390,7 @@ const ReservationForm = () => {
                   <input
                     type="radio"
                     {...register('stealContent', { required: true })}
-                    value="music"
+                    value="楽器の演奏を伴う撮影"
                     className='checkbox-style'
                     id="music"
                   />
@@ -474,7 +474,7 @@ const ReservationForm = () => {
                   <input
                     type="radio"
                     {...register('horizonProtection', { required: true })}
-                    value="useHorizonProtection"
+                    value="養生あり"
                     className='checkbox-style'
                     id="useHorizonProtection"
                   />
@@ -484,7 +484,7 @@ const ReservationForm = () => {
                   <input
                     type="radio"
                     {...register('horizonProtection', { required: true })}
-                    value="nonHorizonProtection"
+                    value="養生なし"
                     className='checkbox-style'
                     id="nonHorizonProtection"
                   />
