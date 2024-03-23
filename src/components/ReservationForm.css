@@ -166,4 +166,7 @@
 
 .complete-title {
     font-size: 2em;
+    background-color: #d5ffedf5;
+    border: 1px solid #000000; /* ボーダー */
+
 }
