@@ -33,21 +33,21 @@ resource "aws_s3_bucket_policy" "allow_cloudfront_service_principal" {
 
 data "aws_iam_policy_document" "allow_cloudfront_service_principal" {
   statement {
-    sid = "AllowCloudFrontServicePrincipal"
+    sid           = "AllowCloudFrontServicePrincipal"
 
-    actions = "s3:GetObject"
+    actions       = "s3:GetObject"
 
     principals {
       type        = "Service"
       identifiers = ["cloudfront.amazonaws.com"]
     }
 
-    resources = "${aws_s3_bucket.studiozebra.arn}/*"
+    resources     = "${aws_s3_bucket.studiozebra.arn}/*"
 
     condition {
-        test = "StringEquals"
+        test     = "StringEquals"
         variable = "aws:SourceArn"
-        values = [aws_cloudfront_distribution.studiozebra.arn]        
+        values   = [aws_cloudfront_distribution.studiozebra.arn]        
     }
   }
 }
