@@ -45,9 +45,9 @@ data "aws_iam_policy_document" "allow_cloudfront_service_principal" {
     resources     = "${aws_s3_bucket.studiozebra.arn}/*"
 
     condition {
-        test     = "StringEquals"
-        variable = "aws:SourceArn"
-        values   = [aws_cloudfront_distribution.studiozebra.arn]        
+        test      = "StringEquals"
+        variable  = "aws:SourceArn"
+        values    = [aws_cloudfront_distribution.studiozebra.arn]        
     }
   }
 }
