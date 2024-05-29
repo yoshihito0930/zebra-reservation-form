@@ -1,0 +1,1 @@
+studio_name = "studiozebra-1st"
