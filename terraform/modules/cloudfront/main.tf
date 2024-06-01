@@ -1,25 +1,12 @@
 # CloudFront
-resource "aws_s3_bucket_acl" "studiozebra_acl" {
-  bucket = aws_s3_bucket.studiozebra.id
-  acl    = "private"
-}
-
 locals {
-  s3_origin_id = "myS3Origin"
+  s3_origin_id = "zebraS3Origin"
 }
 
-resource "aws_cloudfront_origin_access_control" "studio_zebra" {
-  name                              = "studiozebra-1st-reservation-form.s3.ap-northeast-1.amazonaws.com"
-  description                       = "Example Policy"
-  origin_access_control_origin_type = "s3"
-  signing_behavior                  = "always"
-  signing_protocol                  = "sigv4"
-}
-
-resource "aws_cloudfront_distribution" "s3_distribution" {
+resource "aws_cloudfront_distribution" "sutudiozebra-distribution" {
   origin {
-    domain_name              = aws_s3_bucket.studiozebra.bucket_regional_domain_name
-    origin_access_control_id = aws_cloudfront_origin_access_control.default.id
+    domain_name              = aws_s3_bucket.reservation-form.bucket_regional_domain_name
+    origin_access_control_id = aws_cloudfront_origin_access_control.studio_zebra.id
     origin_id                = local.s3_origin_id
   }
 
@@ -74,6 +61,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     ssl_support_method             = "sni-only"
   }
 }
+
 data "aws_iam_policy_document" "allow_cloudfront_service_principal" {
   statement {
     sid           = "AllowCloudFrontServicePrincipal"
@@ -85,12 +73,20 @@ data "aws_iam_policy_document" "allow_cloudfront_service_principal" {
       identifiers = ["cloudfront.amazonaws.com"]
     }
 
-    resources     = ["${aws_s3_bucket.studiozebra.arn}/*"]
+    resources     = ["${var.bucket_arn_reservationForm}/*"]
 
     condition {
         test      = "StringEquals"
         variable  = "aws:SourceArn"
-        values    = ["${aws_cloudfront_distribution.studiozebra.arn}"]
+        values    = ["${aws_cloudfront_distribution.sutudiozebra-distribution.arn}"]
     }
   }
+}
+
+resource "aws_cloudfront_origin_access_control" "studio_zebra" {
+  name                              = "studiozebra-1st-reservation-form.s3.ap-northeast-1.amazonaws.com"
+  description                       = "Example Policy"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
 }
