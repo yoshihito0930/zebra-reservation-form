@@ -5,7 +5,7 @@ locals {
 
 resource "aws_cloudfront_distribution" "sutudiozebra-distribution" {
   origin {
-    domain_name              = aws_s3_bucket.reservation-form.bucket_regional_domain_name
+    domain_name              = var.bucket_regional_domain_name_reservationForm
     origin_access_control_id = aws_cloudfront_origin_access_control.studio_zebra.id
     origin_id                = local.s3_origin_id
   }

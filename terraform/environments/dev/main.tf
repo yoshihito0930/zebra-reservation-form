@@ -4,6 +4,7 @@ module "s3_bucket" {
 }
 
 module "cloudfront_distribution" {
-  source                     = "../../modules/cloudfront"
-  bucket_arn_reservationForm = module.s3_bucket.bucket_arn_reservationForm
+  source                                      = "../../modules/cloudfront"
+  bucket_arn_reservationForm                  = module.s3_bucket.bucket_arn_reservationForm
+  bucket_regional_domain_name_reservationForm = module.s3_bucket.bucket_regional_domain_name_reservationForm
 }
