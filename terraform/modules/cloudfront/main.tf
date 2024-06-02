@@ -1,12 +1,12 @@
 # CloudFront
 locals {
-  s3_origin_id = "zebraS3Origin"
+  s3_origin_id = "studiozebra-1st-reservation-form.s3.ap-northeast-1.amazonaws.com"
 }
 
 resource "aws_cloudfront_distribution" "sutudiozebra-distribution" {
   origin {
     domain_name              = var.bucket_regional_domain_name_reservationForm
-    origin_access_control_id = aws_cloudfront_origin_access_control.studio_zebra.id
+    origin_access_control_id = "ECRGSSF7MPJXW"
     origin_id                = local.s3_origin_id
   }
 
@@ -23,22 +23,16 @@ resource "aws_cloudfront_distribution" "sutudiozebra-distribution" {
   aliases = ["*.studiozebra-1st-dev.com"]
 
   default_cache_behavior {
+    cache_policy_id   = "658327ea-f89d-4fab-a63d-7e88639e58f6"
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
     target_origin_id = local.s3_origin_id
 
-    forwarded_values {
-      query_string = false
-
-      cookies {
-        forward = "none"
-      }
-    }
-
     viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 1
-    default_ttl            = 86400
-    max_ttl                = 31536000
+    default_ttl            = 0
+    max_ttl                = 0
+    min_ttl                = 0
+    compress               = true
   }
   
   price_class = "PriceClass_200"
@@ -60,33 +54,4 @@ resource "aws_cloudfront_distribution" "sutudiozebra-distribution" {
     minimum_protocol_version       = "TLSv1.2_2021"
     ssl_support_method             = "sni-only"
   }
-}
-
-data "aws_iam_policy_document" "allow_cloudfront_service_principal" {
-  statement {
-    sid           = "AllowCloudFrontServicePrincipal"
-
-    actions       = ["s3:GetObject"]
-
-    principals {
-      type        = "Service"
-      identifiers = ["cloudfront.amazonaws.com"]
-    }
-
-    resources     = ["${var.bucket_arn_reservationForm}/*"]
-
-    condition {
-        test      = "StringEquals"
-        variable  = "aws:SourceArn"
-        values    = ["${aws_cloudfront_distribution.sutudiozebra-distribution.arn}"]
-    }
-  }
-}
-
-resource "aws_cloudfront_origin_access_control" "studio_zebra" {
-  name                              = "studiozebra-1st-reservation-form.s3.ap-northeast-1.amazonaws.com"
-  description                       = "Example Policy"
-  origin_access_control_origin_type = "s3"
-  signing_behavior                  = "always"
-  signing_protocol                  = "sigv4"
 }
