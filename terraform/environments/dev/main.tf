@@ -11,6 +11,6 @@ module "cloudfront_distribution" {
 
 module "ses" {
     source            = "../../modules/ses"
-    domain_name       = "studiozebra-1st-dev.com"
-    recipient-address = "yoshihito.093079@gmail.com"
+    domain_name       = var.domain_name
+    recipient-address = var.recipient-address
 }
