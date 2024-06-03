@@ -14,3 +14,8 @@ module "ses" {
     domain_name       = var.domain_name
     recipient-address = var.recipient-address
 }
+
+module "route53" {
+    source            = "../../modules/route53"
+    host_name       = var.domain_name
+}
