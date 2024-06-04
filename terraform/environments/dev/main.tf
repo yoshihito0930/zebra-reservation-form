@@ -17,5 +17,5 @@ module "ses" {
 
 module "route53" {
     source            = "../../modules/route53"
-    host_name       = var.domain_name
+    host_name         = var.domain_name
 }
