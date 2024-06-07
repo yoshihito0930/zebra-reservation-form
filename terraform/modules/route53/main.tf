@@ -74,3 +74,17 @@ resource "aws_route53_record" "studiozebra-1st-dev-A" {
   zone_id                          = "${aws_route53_zone.hostzone-zebra.zone_id}"
 }
 
+# ACM
+resource "aws_acm_certificate" "cert" {
+  provider          = aws.acm_provider
+  domain_name       = "*.${var.host_name}"
+  validation_method = "DNS"
+
+  tags = {
+    Name            = "studiozebra1st-dev"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
