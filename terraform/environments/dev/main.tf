@@ -19,3 +19,7 @@ module "route53" {
     source            = "../../modules/route53"
     host_name         = var.domain_name
 }
+
+module "lambda_apigateway" {
+  source            = "../../modules/lambda_apigateway"
+}
