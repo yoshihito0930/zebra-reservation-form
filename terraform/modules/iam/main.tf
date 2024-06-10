@@ -52,7 +52,7 @@ resource "aws_iam_group" "administrator" {
 }
 
 resource "aws_iam_group_policy_attachment" "AdministratorAccess" {
-    group      = aws_iam_group.administrator
+    group      = aws_iam_group.administrator.name
     policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 

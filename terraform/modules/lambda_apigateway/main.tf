@@ -46,6 +46,28 @@ data "aws_iam_policy_document" "LambdaSESMailRole-assume" {
         }
     }
 }
+# APIGateway_logs
+resource "aws_iam_role" "APIGateway_logs" {
+    name                 = "APIGateway_logs"
+    assume_role_policy = data.aws_iam_policy_document.APIGatewayLogs-assume.json
+
+    description          = "Allows API Gateway to push logs to CloudWatch Logs."
+    managed_policy_arns  = ["arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"]
+    max_session_duration = "3600"
+    path                 = "/"
+}
+
+data "aws_iam_policy_document" "APIGatewayLogs-assume" {
+    statement {
+        actions = ["sts:AssumeRole"]
+
+        principals {
+            type        = "Service"
+            identifiers = ["apigateway.amazonaws.com"]
+        }
+    }
+}
+
 
 # Lamnda Function
 resource "aws_lambda_function" "reservationform-send-mail" {
