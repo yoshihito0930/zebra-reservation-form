@@ -1,7 +1,7 @@
 # IAM User
 resource "aws_iam_user" "admin" {
     force_destroy = "false"
-    name          = "zebra-admin"
+    name          = var.admin-user
     path          = "/"
 
     tags = {
@@ -28,7 +28,7 @@ resource "aws_iam_access_key" "admin-key2" {
 
 resource "aws_iam_user" "github-s3" {
   force_destroy = "false"
-  name          = "zebra-github-s3"
+  name          = var.githubAction-user
   path          = "/"
 
   tags = {

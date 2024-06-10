@@ -1,17 +1,21 @@
 module "iam" {
-  source            = "../../modules/iam"
+    source            = "../../modules/iam"
+    
+    admin-user        = var.admin-user
+    githubAction-user = var.githubAction-user
+
 }
 
 module "s3_bucket" {
-  source      = "../../modules/s3"
-  studio_name = var.studio_name
-}
+    source      = "../../modules/s3"
+    studio_name = var.studio_name
+  }
 
 module "cloudfront_distribution" {
-  source                                      = "../../modules/cloudfront"
-  bucket_arn_reservationForm                  = module.s3_bucket.bucket_arn_reservationForm
-  bucket_regional_domain_name_reservationForm = module.s3_bucket.bucket_regional_domain_name_reservationForm
-}
+    source                                      = "../../modules/cloudfront"
+    bucket_arn_reservationForm                  = module.s3_bucket.bucket_arn_reservationForm
+    bucket_regional_domain_name_reservationForm = module.s3_bucket.bucket_regional_domain_name_reservationForm
+  }
 
 module "ses" {
     source            = "../../modules/ses"
@@ -25,5 +29,5 @@ module "route53" {
 }
 
 module "lambda_apigateway" {
-  source            = "../../modules/lambda_apigateway"
+    source            = "../../modules/lambda_apigateway"
 }
