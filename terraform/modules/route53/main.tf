@@ -81,7 +81,7 @@ resource "aws_acm_certificate" "cert" {
   validation_method = "DNS"
 
   tags = {
-    Name            = "studiozebra1st-dev"
+    Name            = var.host_name
   }
 
   lifecycle {
