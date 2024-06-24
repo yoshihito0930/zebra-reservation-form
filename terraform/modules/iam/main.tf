@@ -85,6 +85,12 @@ resource "aws_iam_user_policy" "s3_policy" {
   policy = data.aws_iam_policy_document.s3_policy.json
 }
 
+resource "aws_iam_user_policy" "cloudfront_policy" {
+  name   = "cloudfront-create-invalidation"
+  user   = aws_iam_user.github_actions_user.name
+  policy = data.aws_iam_policy_document.cloudfront_policy.json
+}
+
 data "aws_iam_policy_document" "ecr_policy" {
   statement {
     actions   = ["ecr:*"]
@@ -115,6 +121,13 @@ data "aws_iam_policy_document" "s3_policy" {
   statement {
     actions   = ["s3:*"]
     resources = ["*"]
+  }
+}
+
+data "aws_iam_policy_document" "cloudfront_policy" {
+  statement {
+    actions   = ["cloudfront:CreateInvalidation"]
+    resources = [var.cloudfront_distribution_arn]
   }
 }
 

@@ -50,7 +50,7 @@ resource "aws_cloudfront_distribution" "sutudiozebra-distribution" {
 
   viewer_certificate {
     cloudfront_default_certificate = "false"
-    acm_certificate_arn            = "arn:aws:acm:us-east-1:807357942906:certificate/8275ca6f-b3a6-450c-ad04-ab4a3bf31032"
+    acm_certificate_arn            = var.acm_arn
     minimum_protocol_version       = "TLSv1.2_2021"
     ssl_support_method             = "sni-only"
   }

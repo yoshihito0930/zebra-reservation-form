@@ -7,3 +7,8 @@ variable "githubAction-user" {
   description = "The user name who act github actions (e.g., zebra-github-s3)"
   type        = string
 }
+
+variable "cloudfront_distribution_arn" {
+  description = "The ARN of the CloudFront distribution"
+  type        = string
+}
