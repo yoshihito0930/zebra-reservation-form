@@ -9,9 +9,9 @@ on:
         default: 'warning'
         type: choice
         options:
-        - info
-        - warning
-        - debug
+          - info
+          - warning
+          - debug
       tags:
         description: 'Test scenario tags'
         required: false
@@ -38,7 +38,7 @@ jobs:
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
-    
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -54,15 +54,20 @@ jobs:
       env:
         ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
       run: |
-        docker tag docker-image:test $ECR_REPOSITORY:latest
+        IMAGE_TAG=$(date +%Y%m%d%H%M%S)
+        docker build -t my-docker-image:test .
+        docker tag my-docker-image:test $ECR_REPOSITORY:$IMAGE_TAG
+        docker tag my-docker-image:test $ECR_REPOSITORY:latest
+        docker push $ECR_REPOSITORY:$IMAGE_TAG
         docker push $ECR_REPOSITORY:latest
+        echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
 
     - name: Update Lambda function
       env:
         AWS_REGION: ${{ secrets.AWS_REGION }}
         ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
       run: |
-        aws lambda update-function-code --function-name reservationform-send-mail --image-uri $ECR_REPOSITORY:latest
+        aws lambda update-function-code --function-name reservationform-send-mail --image-uri $ECR_REPOSITORY:$IMAGE_TAG
 
     - name: Deploy API Gateway
       env:
