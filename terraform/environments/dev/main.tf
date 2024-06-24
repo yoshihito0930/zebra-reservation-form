@@ -1,7 +1,6 @@
 module "iam" {
     source                        = "../../modules/iam"
     admin-user                    = var.admin-user
-    githubAction-user             = var.githubAction-user
     cloudfront_distribution_arn    = module.cloudfront_distribution.cloudfront_distribution_arn
 }
 

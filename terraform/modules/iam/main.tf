@@ -25,26 +25,6 @@ resource "aws_iam_access_key" "admin-key2" {
     status     = "Active"
 }
 
-
-resource "aws_iam_user" "github-s3" {
-    force_destroy = "false"
-    name          = var.githubAction-user
-    path          = "/"
-
-    tags = {
-        AKIA3X6SIRR5JIEQYVVF = "for github access_key"
-    }
-
-    tags_all = {
-        AKIA3X6SIRR5JIEQYVVF = "for github access_key"
-    }
-}
-
-resource "aws_iam_access_key" "github-s3-key1" {
-    user       = aws_iam_user.github-s3.name
-    status     = "Active"
-}
-
 # IAM Groupe
 resource "aws_iam_group" "administrator" {
     name = "administrator"
