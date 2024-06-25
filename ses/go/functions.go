@@ -99,22 +99,23 @@ func Email(ctx context.Context, request events.APIGatewayProxyRequest) (events.A
 	}
 
 	// メールの内容
-	formattedBody := fmt.Sprintf("氏名: %s\n"+
-		"会社名: %s\n"+
-		"メールアドレス: %s\n"+
-		"電話番号: %s\n"+
-		"住所: %s\n"+
-		"カメラマン氏名: %s\n"+
-		"ご利用プラン: %s\n"+
-		"機材保険: %s\n"+
-		"今回のご予約の種類: %s\n"+
-		"ご希望の利用日時: %s\n"+
-		"撮影内容: %s\n"+
-		"撮影詳細: %s\n"+
-		"ご利用人数: %s\n"+
-		"ホリゾントの養生: %s\n"+
-		"ロケハン希望、有料消耗品の利用希望、撮影内容についてのご相談など: %s\n"+
-		"利用規約およびホリゾントルールのご確認: %s",
+	formattedBody := fmt.Sprintf(
+		"氏名: %s\n"+
+			"会社名: %s\n"+
+			"メールアドレス: %s\n"+
+			"電話番号: %s\n"+
+			"住所: %s\n"+
+			"カメラマン氏名: %s\n"+
+			"ご利用プラン: %s\n"+
+			"機材保険: %s\n"+
+			"今回のご予約の種類: %s\n"+
+			"ご希望の利用日時: %s\n"+
+			"撮影内容: %s\n"+
+			"撮影詳細: %s\n"+
+			"ご利用人数: %s\n"+
+			"ホリゾントの養生: %s\n"+
+			"ロケハン希望、有料消耗品の利用希望、撮影内容についてのご相談など: %s\n"+
+			"利用規約およびホリゾントルールのご確認: %s",
 		data.Name,
 		data.CompanyName,
 		data.Email,
@@ -130,7 +131,8 @@ func Email(ctx context.Context, request events.APIGatewayProxyRequest) (events.A
 		data.NumberOfPeople,
 		data.HorizonProtection,
 		data.Others,
-		termsAndConditionsText)
+		termsAndConditionsText,
+	)
 
 	message := &types.Message{
 		Subject: &types.Content{
