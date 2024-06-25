@@ -57,9 +57,7 @@ data "aws_iam_policy_document" "allow_cloudfront_service_principal" {
         condition {
             test        = "StringEquals"
             variable    = "AWS:SourceArn"
-            values      = [
-                "arn:aws:cloudfront::807357942906:distribution/E36NOONM5TQTGN"
-            ]
+            values      = [var.cloudfront_distribution_arn]
         }
     }
 }

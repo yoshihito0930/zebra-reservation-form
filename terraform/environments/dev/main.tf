@@ -7,6 +7,7 @@ module "iam" {
 module "s3_bucket" {
     source      = "../../modules/s3"
     studio_name = var.studio_name
+    cloudfront_distribution_arn    = module.cloudfront_distribution.cloudfront_distribution_arn
 }
 
 module "cloudfront_distribution" {
