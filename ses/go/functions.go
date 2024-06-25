@@ -78,6 +78,26 @@ func Email(ctx context.Context, request events.APIGatewayProxyRequest) (events.A
 
 	sesClient := ses.NewFromConfig(cfg)
 
+	// メールの内容を動的に変更
+	var planText, equipmentInsuranceText, termsAndConditionsText string
+	if data.Plan {
+		planText = "機材使い放題"
+	} else {
+		planText = "機材使い放題ではない"
+	}
+
+	if data.EquipmentInsurance {
+		equipmentInsuranceText = "機材保険あり"
+	} else {
+		equipmentInsuranceText = "機材保険なし"
+	}
+
+	if data.TermsAndConditions {
+		termsAndConditionsText = "同意する"
+	} else {
+		termsAndConditionsText = "同意しない"
+	}
+
 	// メールの内容
 	formattedBody := fmt.Sprintf("氏名: %s\n"+
 		"会社名: %s\n"+
@@ -101,8 +121,8 @@ func Email(ctx context.Context, request events.APIGatewayProxyRequest) (events.A
 		data.PhoneNumber,
 		data.Address,
 		data.PhotographerName,
-		data.Plan,
-		data.EquipmentInsurance,
+		planText,
+		equipmentInsuranceText,
 		data.ReservationType,
 		data.PreferredDateTime,
 		data.StealContent,
@@ -110,7 +130,7 @@ func Email(ctx context.Context, request events.APIGatewayProxyRequest) (events.A
 		data.NumberOfPeople,
 		data.HorizonProtection,
 		data.Others,
-		data.TermsAndConditions)
+		termsAndConditionsText)
 
 	message := &types.Message{
 		Subject: &types.Content{
