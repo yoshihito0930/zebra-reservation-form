@@ -1,4 +1,4 @@
-name: Deploy to AWS Lambda and Update API Gateway
+name: Deploy to AWS Lambda
 
 on:
   workflow_dispatch:
@@ -26,53 +26,39 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout repository
       uses: actions/checkout@v2
 
     - name: Set up QEMU
-      uses: docker/setup-qemu-action@v1
+      uses: docker/setup-qemu-action@v2
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      uses: docker/setup-buildx-action@v2
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: ${{ secrets.AWS_REGION }}
-
-    - name: Log in to Amazon ECR
-      id: login-ecr
+    - name: Login to AWS ECR
       uses: aws-actions/amazon-ecr-login@v1
+      with:
+        region: ap-northeast-1
 
-    - name: Build, tag, and push image to Amazon ECR
-      env:
-        ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
-      run: |
-        IMAGE_TAG=$(date +%Y%m%d%H%M%S)
-        docker build -t my-docker-image:test .
-        docker tag my-docker-image:test $ECR_REPOSITORY:$IMAGE_TAG
-        docker tag my-docker-image:test $ECR_REPOSITORY:latest
-        docker push $ECR_REPOSITORY:$IMAGE_TAG
-        docker push $ECR_REPOSITORY:latest
-        echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+    - name: Build Docker image
+      run: docker build --platform linux/arm64 -t docker-image:test .
+
+    - name: Tag Docker image
+      run: docker tag docker-image:test 807357942906.dkr.ecr.ap-northeast-1.amazonaws.com/zebra-reservation-form:latest
+
+    - name: Push Docker image to ECR
+      run: docker push 807357942906.dkr.ecr.ap-northeast-1.amazonaws.com/zebra-reservation-form:latest
 
     - name: Update Lambda function
-      env:
-        AWS_REGION: ${{ secrets.AWS_REGION }}
-        ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
       run: |
-        aws lambda update-function-code --function-name reservationform-send-mail --image-uri $ECR_REPOSITORY:$IMAGE_TAG
-
-    - name: Deploy API Gateway
+        aws lambda update-function-code \
+          --function-name reservationform-send-mail \
+          --image-uri 807357942906.dkr.ecr.ap-northeast-1.amazonaws.com/zebra-reservation-form:latest \
+          --architectures arm64
       env:
-        AWS_REGION: ${{ secrets.AWS_REGION }}
-      run: |
-        REST_API_ID=tj3alvdeza
-        STAGE_NAME=development
-        aws apigateway create-deployment --rest-api-id $REST_API_ID --stage-name $STAGE_NAME
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
