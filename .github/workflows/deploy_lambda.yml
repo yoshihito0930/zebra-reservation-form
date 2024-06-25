@@ -39,10 +39,16 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
 
-    - name: Login to AWS ECR
-      uses: aws-actions/amazon-ecr-login@v1
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
       with:
-        region: ap-northeast-1
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-northeast-1
+
+    - name: Login to ECR
+      run: |
+        aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 807357942906.dkr.ecr.ap-northeast-1.amazonaws.com
 
     - name: Build Docker image
       run: docker build --platform linux/arm64 -t docker-image:test .
@@ -59,6 +65,3 @@ jobs:
           --function-name reservationform-send-mail \
           --image-uri 807357942906.dkr.ecr.ap-northeast-1.amazonaws.com/zebra-reservation-form:latest \
           --architectures arm64
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
