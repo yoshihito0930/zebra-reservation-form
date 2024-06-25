@@ -51,7 +51,7 @@ jobs:
         aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin 807357942906.dkr.ecr.ap-northeast-1.amazonaws.com
 
     - name: Build Docker image
-      run: docker build --platform linux/arm64 -t docker-image:test .
+      run: docker build --platform linux/arm64 -t docker-image:test ./ses
 
     - name: Tag Docker image
       run: docker tag docker-image:test 807357942906.dkr.ecr.ap-northeast-1.amazonaws.com/zebra-reservation-form:latest
