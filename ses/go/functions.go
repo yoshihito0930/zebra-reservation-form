@@ -99,7 +99,8 @@ func Email(ctx context.Context, request events.APIGatewayProxyRequest) (events.A
 	}
 
 	// メールの内容
-	formattedBody := fmt.Sprintf("氏名: %s\n"+
+	formattedBody := fmt.Sprintf(
+		"氏名: %s\n"+
 		"会社名: %s\n"+
 		"メールアドレス: %s\n"+
 		"電話番号: %s\n"+
@@ -130,7 +131,8 @@ func Email(ctx context.Context, request events.APIGatewayProxyRequest) (events.A
 		data.NumberOfPeople,
 		data.HorizonProtection,
 		data.Others,
-		termsAndConditionsText)
+		termsAndConditionsText
+	)
 
 	message := &types.Message{
 		Subject: &types.Content{
