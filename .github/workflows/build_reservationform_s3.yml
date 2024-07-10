@@ -59,7 +59,7 @@ jobs:
         run: npm run build
 
       - name: Configure AWS CLI
-        run: aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} && aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY_S3 }} && aws configure set region ap-northeast-1
+        run: aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} && aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} && aws configure set region ap-northeast-1
       
       - name: Deploy
         env:
