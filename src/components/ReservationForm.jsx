@@ -528,7 +528,7 @@ const ReservationForm = () => {
                     <span className="required-mark">必須</span>
                   </div>
                   <div className='waring-statement'>
-                    当スタジオのホームページに掲載している「利用規約」および「ホリゾントルール」の事前確認をお願いします。
+                    当スタジオのホームページに掲載している「利用規約」および「ホリゾントルール」の事前確認をお願いします。<br />
                     <a href="https://studiozebra-1st.com/policy/" target="_blank" rel="noopener noreferrer">利用規約</a><br />
                     <a href="https://studiozebra-1st.com/horizon/" target="_blank" rel="noopener noreferrer">ホリゾントルール</a>
                   </div>
