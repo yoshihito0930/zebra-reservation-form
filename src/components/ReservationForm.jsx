@@ -341,16 +341,16 @@ const ModernReservationForm = () => {
           placeholder="ロケハン希望、有料消耗品の利用希望、撮影内容についてのご相談など"
         />
         
-        <div className="space-y-4">
+        <div className="space-y-2">
           <p className="text-sm text-gray-700 font-medium">以下の規約をご確認ください：</p>
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+          <div className="flex flex-col space-y-1">
             <a 
               href="https://studiozebra-1st.com/policy/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200"
             >
-              <ExternalLink size={16} className="mr-1" />
+              <ExternalLink size={16} className="mr-1 flex-shrink-0" />
               <span className="underline">利用規約</span>
             </a>
             <a 
@@ -359,13 +359,13 @@ const ModernReservationForm = () => {
               rel="noopener noreferrer"
               className="flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200"
             >
-              <ExternalLink size={16} className="mr-1" />
+              <ExternalLink size={16} className="mr-1 flex-shrink-0" />
               <span className="underline">ホリゾントルール</span>
             </a>
           </div>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-start space-x-2 mt-2">
           <input
             type="checkbox"
             id="termsAndConditions"
