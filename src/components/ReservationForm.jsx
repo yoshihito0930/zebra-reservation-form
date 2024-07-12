@@ -31,6 +31,7 @@ const CheckboxField = ({ label, name, register, required, error }) => (
         className="form-checkbox h-5 w-5 text-blue-600"
       />
       <span className="text-sm text-gray-700">{label}</span>
+      {required && <span className="text-red-500 ml-1">*</span>}
     </label>
     {error && <p className="mt-1 text-sm text-red-500">{error.message}</p>}
   </div>
@@ -49,6 +50,7 @@ const RadioField = ({ label, name, options, register, required, error }) => (
             className="form-radio h-5 w-5 text-blue-600"
           />
           <span className="text-sm text-gray-700">{option.label}</span>
+          {required && <span className="text-red-500 ml-1">*</span>}
         </label>
       ))}
     </div>
