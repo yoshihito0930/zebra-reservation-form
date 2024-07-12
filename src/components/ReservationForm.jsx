@@ -374,7 +374,7 @@ const ModernReservationForm = () => {
           />
           <label htmlFor="termsAndConditions" className="text-sm text-gray-700">
             利用規約・ホリゾントルールを確認しました
-            {required && <span className="text-red-500 ml-1">*</span>}
+            <span className="text-red-500 ml-1">*</span>
           </label>
         </div>
         {errors.termsAndConditions && (
