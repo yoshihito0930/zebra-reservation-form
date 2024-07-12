@@ -340,15 +340,46 @@ const ModernReservationForm = () => {
           error={errors.others}
           placeholder="ロケハン希望、有料消耗品の利用希望、撮影内容についてのご相談など"
         />
+        
+        <div className="space-y-4">
+          <p className="text-sm text-gray-700 font-medium">以下の規約をご確認ください：</p>
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+            <a 
+              href="https://studiozebra-1st.com/policy/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200"
+            >
+              <ExternalLink size={16} className="mr-1" />
+              <span className="underline">利用規約</span>
+            </a>
+            <a 
+              href="https://studiozebra-1st.com/horizon/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center text-blue-600 hover:text-blue-800 transition-colors duration-200"
+            >
+              <ExternalLink size={16} className="mr-1" />
+              <span className="underline">ホリゾントルール</span>
+            </a>
+          </div>
+        </div>
 
-        <CheckboxField
-          label="利用規約・ホリゾントルールを確認しました"
-          name="termsAndConditions"
-          register={register}
-          required={true}
-          error={errors.termsAndConditions}
-        />
-
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="termsAndConditions"
+            {...register('termsAndConditions', { required: '利用規約とホリゾントルールを確認して同意してください。' })}
+            className="form-checkbox h-5 w-5 text-blue-600 transition duration-150 ease-in-out"
+          />
+          <label htmlFor="termsAndConditions" className="text-sm text-gray-700">
+            利用規約・ホリゾントルールを確認しました
+          </label>
+        </div>
+        {errors.termsAndConditions && (
+          <p className="mt-1 text-sm text-red-600">{errors.termsAndConditions.message}</p>
+        )}
+        
         <div className="text-center">
           <motion.button
             whileHover={{ scale: 1.05 }}
