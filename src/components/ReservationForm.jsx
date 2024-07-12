@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import { ChevronDownIcon, ExternalLink } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 
 const InputField = ({ label, name, register, required, error, type = 'text', placeholder }) => (
   <div className="mb-4">
@@ -374,8 +374,8 @@ const ModernReservationForm = () => {
           />
           <label htmlFor="termsAndConditions" className="text-sm text-gray-700">
             利用規約・ホリゾントルールを確認しました
+            {required && <span className="text-red-500 ml-1">*</span>}
           </label>
-          {required && <span className="text-red-500 ml-1">*</span>}
         </div>
         {errors.termsAndConditions && (
           <p className="mt-1 text-sm text-red-600">{errors.termsAndConditions.message}</p>
