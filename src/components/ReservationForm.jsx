@@ -354,7 +354,7 @@ const ModernReservationForm = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="submit"
-            className="bg-blue-600 text-white px-6 py-3 rounded-md font-medium hover:bg-blue-700 transition duration-300"
+            className="bg-[#82C2A9] text-black px-6 py-3 rounded-md font-medium hover:bg-[#6eab94] transition duration-300"
           >
             予約フォームを送信する
           </motion.button>
