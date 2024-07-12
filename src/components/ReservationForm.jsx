@@ -111,15 +111,38 @@ const ModernReservationForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  const onSubmit = async (data) => {
-    try {
-      // API呼び出しのロジックをここに実装
-      console.log('Form submitted:', data);
-      setIsSubmitted(true);
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      setIsError(true);
-    }
+  const onSubmit = async(data) => {
+    // リクエストデータを準備
+      const requestData = {
+        body: JSON.stringify(data),
+        httpMethod:'POST',
+        resource: '/send'
+      };
+  
+      console.log('Sending HTTP request:', JSON.stringify(requestData));
+  
+    // フォームが送信されたときの処理
+      try {
+        const response = await fetch(apiGatewayUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestData),
+        });
+    
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+    
+        // フォームが送信されたときの処理
+        console.log('フォームが送信されました');
+        setIsSubmitted(true);
+      } catch (error) {
+        console.error('There was an error:', error);
+        // エラーが発生した場合、エラーページを表示する
+        setIsError(true);
+      }
   };
 
   if (isSubmitted) {
