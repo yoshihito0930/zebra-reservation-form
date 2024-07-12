@@ -111,6 +111,8 @@ const ModernReservationForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
 
+  const apiGatewayUrl = 'https://tj3alvdeza.execute-api.ap-northeast-1.amazonaws.com/development/send';
+
   const onSubmit = async(data) => {
     // リクエストデータを準備
       const requestData = {
