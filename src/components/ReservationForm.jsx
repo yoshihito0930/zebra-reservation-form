@@ -40,6 +40,7 @@ const CheckboxField = ({ label, name, register, required, error }) => (
 const RadioField = ({ label, name, options, register, required, error }) => (
   <div className="mb-4">
     <p className="block text-sm font-medium text-gray-700 mb-1">{label}</p>
+    {required && <span className="text-red-500 ml-1">*</span>}
     <div className="space-y-2">
       {options.map((option) => (
         <label key={option.value} className="flex items-center space-x-2">
@@ -50,7 +51,6 @@ const RadioField = ({ label, name, options, register, required, error }) => (
             className="form-radio h-5 w-5 text-blue-600"
           />
           <span className="text-sm text-gray-700">{option.label}</span>
-          {required && <span className="text-red-500 ml-1">*</span>}
         </label>
       ))}
     </div>
@@ -243,13 +243,15 @@ const ModernReservationForm = () => {
           placeholder="鈴木 カメラ太郎"
         />
 
-        <CheckboxField
-          label="【機材使い放題】 ¥4,500/1h（税込￥4,950/1h）"
-          name="plan"
-          register={register}
-          required={true}
-          error={errors.plan}
-        />
+        {/*
+          <CheckboxField
+            label="【機材使い放題】 ¥4,500/1h（税込￥4,950/1h）"
+            name="plan"
+            register={register}
+            required={true}
+            error={errors.plan}
+          />
+        */}
 
         <RadioField
           label="予約の種類"
