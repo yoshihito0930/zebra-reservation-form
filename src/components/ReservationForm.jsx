@@ -39,8 +39,10 @@ const CheckboxField = ({ label, name, register, required, error }) => (
 
 const RadioField = ({ label, name, options, register, required, error }) => (
   <div className="mb-4">
-    <p className="block text-sm font-medium text-gray-700 mb-1">{label}</p>
-    {required && <span className="text-red-500 ml-1">*</span>}
+    <p className="block text-sm font-medium text-gray-700 mb-1">
+      {label}
+      {required && <span className="text-red-500 ml-1">*</span>}
+    </p>
     <div className="space-y-2">
       {options.map((option) => (
         <label key={option.value} className="flex items-center space-x-2">
