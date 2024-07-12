@@ -21,7 +21,7 @@ type RequestData struct {
 	PhoneNumber        string `json:"phoneNumber"`
 	Address            string `json:"address"`
 	PhotographerName   string `json:"photographerName"`
-	Plan               bool   `json:"plan"`
+	// Plan               bool   `json:"plan"`
 	EquipmentInsurance bool   `json:"equipmentInsurance"`
 	ReservationType    string `json:"reservationType"`
 	PreferredDateTime  string `json:"preferredDateTime"`
@@ -78,13 +78,15 @@ func Email(ctx context.Context, request events.APIGatewayProxyRequest) (events.A
 
 	sesClient := ses.NewFromConfig(cfg)
 
-	// メールの内容を動的に変更
-	var planText, equipmentInsuranceText, termsAndConditionsText string
-	if data.Plan {
-		planText = "機材使い放題"
-	} else {
-		planText = "機材使い放題ではない"
-	}
+	/*
+		// メールの内容を動的に変更
+		var planText, equipmentInsuranceText, termsAndConditionsText string
+		if data.Plan {
+			planText = "機材使い放題"
+		} else {
+			planText = "機材使い放題ではない"
+		}
+	*/
 
 	if data.EquipmentInsurance {
 		equipmentInsuranceText = "機材保険あり"
@@ -106,7 +108,7 @@ func Email(ctx context.Context, request events.APIGatewayProxyRequest) (events.A
 			"電話番号: %s\n"+
 			"住所: %s\n"+
 			"カメラマン氏名: %s\n"+
-			"ご利用プラン: %s\n"+
+			// "ご利用プラン: %s\n"+
 			"機材保険: %s\n"+
 			"今回のご予約の種類: %s\n"+
 			"ご希望の利用日時: %s\n"+
@@ -122,7 +124,7 @@ func Email(ctx context.Context, request events.APIGatewayProxyRequest) (events.A
 		data.PhoneNumber,
 		data.Address,
 		data.PhotographerName,
-		planText,
+		// planText,
 		equipmentInsuranceText,
 		data.ReservationType,
 		data.PreferredDateTime,
