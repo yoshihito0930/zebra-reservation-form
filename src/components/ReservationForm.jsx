@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import { ChevronDownIcon } from 'lucide-react';
+import { ChevronDownIcon, ExternalLink } from 'lucide-react';
 
 const InputField = ({ label, name, register, required, error, type = 'text', placeholder }) => (
   <div className="mb-4">
@@ -379,7 +379,7 @@ const ModernReservationForm = () => {
         {errors.termsAndConditions && (
           <p className="mt-1 text-sm text-red-600">{errors.termsAndConditions.message}</p>
         )}
-        
+
         <div className="text-center">
           <motion.button
             whileHover={{ scale: 1.05 }}
