@@ -1,12 +1,12 @@
 module "iam" {
     source                        = "../../modules/iam"
     admin-user                    = var.admin-user
-    cloudfront_distribution_arn    = module.cloudfront_distribution.cloudfront_distribution_arn
+    cloudfront_distribution_arn   = module.cloudfront_distribution.cloudfront_distribution_arn
 }
 
 module "s3_bucket" {
-    source      = "../../modules/s3"
-    studio_name = var.studio_name
+    source                         = "../../modules/s3"
+    studio_name                    = var.studio_name
     cloudfront_distribution_arn    = module.cloudfront_distribution.cloudfront_distribution_arn
 }
 
@@ -24,10 +24,14 @@ module "ses" {
 }
 
 module "route53" {
-    source            = "../../modules/route53"
-    host_name         = var.domain_name
+    source     = "../../modules/route53"
+    host_name  = var.domain_name
 }
 
 module "lambda_apigateway" {
-    source            = "../../modules/lambda_apigateway"
+    source = "../../modules/lambda_apigateway"
+}
+
+module "rds" {
+    source = "../../modules/rds"
 }
