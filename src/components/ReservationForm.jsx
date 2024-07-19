@@ -114,6 +114,7 @@ const ModernReservationForm = () => {
     handleSubmit,
     control,
     formState: { errors },
+    watch
   } = useForm();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -140,7 +141,7 @@ const ModernReservationForm = () => {
 
   const formatPreferredDateTime = (date, start, end) => {
     if (!date || !start || !end) return '';
-    const formattedDate = date.toISOString().split('T')[0]; // YYYY-MM-DD
+    const formattedDate = date instanceof Date ? date.toISOString().split('T')[0] : date;
     return `${formattedDate} ${start}-${end}`;
   };
  
@@ -150,6 +151,7 @@ const ModernReservationForm = () => {
       ...data,
       preferredDateTime: formattedDateTime
     };
+    
     // リクエストデータを準備
     const requestData = {
       body: JSON.stringify(data),
