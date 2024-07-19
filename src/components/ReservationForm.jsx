@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { ChevronDownIcon,ExternalLink } from 'lucide-react';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
 
 const InputField = ({ label, name, register, required, error, type = 'text', placeholder }) => (
   <div className="mb-4">
@@ -110,12 +112,27 @@ const ModernReservationForm = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const apiGatewayUrl = 'https://tj3alvdeza.execute-api.ap-northeast-1.amazonaws.com/development/send';
+
+  const generateTimeOptions = () => {
+    const options = [];
+    for (let i = 0; i < 24; i++) {
+      for (let j = 0; j < 60; j += 30) {
+        const hour = i.toString().padStart(2, '0');
+        const minute = j.toString().padStart(2, '0');
+        options.push(`${hour}:${minute}`);
+      }
+    }
+    return options;
+  };
+
+  const timeOptions = generateTimeOptions();
 
   const onSubmit = async(data) => {
     // リクエストデータを準備
@@ -266,15 +283,67 @@ const ModernReservationForm = () => {
           required={true}
           error={errors.reservationType}
         />
-
-        <TextareaField
-          label="ご希望の利用日時"
-          name="preferredDateTime"
-          register={register}
-          required={true}
-          error={errors.preferredDateTime}
-          placeholder="2023年9月1日(金) 14時～20時"
-        />
+        
+        {/*
+          <TextareaField
+            label="ご希望の利用日時"
+            name="preferredDateTime"
+            register={register}
+            required={true}
+            error={errors.preferredDateTime}
+            placeholder="2023年9月1日(金) 14時～20時"
+          />
+        */}
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">
+            ご希望の利用日時<span className="text-red-500 ml-1">*</span>
+          </label>
+          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+            <div className="flex-1">
+              <Controller
+                control={control}
+                name="preferredDateTime"
+                rules={{ required: "予約日を選択してください" }}
+                render={({ field }) => (
+                  <DatePicker
+                    selected={field.value}
+                    onChange={(date) => field.onChange(date)}
+                    dateFormat="yyyy/MM/dd"
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                    placeholderText="日付を選択"
+                  />
+                )}
+              />
+            </div>
+            <div className="flex-1">
+              <select
+                {...register("startTime", { required: "開始時間を選択してください" })}
+                className="w-full p-2 border border-gray-300 rounded-md"
+              >
+                <option value="">開始時間</option>
+                {timeOptions.map((time) => (
+                  <option key={`start-${time}`} value={time}>{time}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex-1">
+              <select
+                {...register("endTime", { required: "終了時間を選択してください" })}
+                className="w-full p-2 border border-gray-300 rounded-md"
+              >
+                <option value="">終了時間</option>
+                {timeOptions.map((time) => (
+                  <option key={`end-${time}`} value={time}>{time}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          {(errors.reservationDate || errors.startTime || errors.endTime) && (
+            <p className="mt-1 text-sm text-red-600">
+              {errors.reservationDate?.message || errors.startTime?.message || errors.endTime?.message}
+            </p>
+          )}
+        </div>
 
         <RadioField
           label="撮影内容"
