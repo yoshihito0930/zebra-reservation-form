@@ -141,8 +141,11 @@ const ModernReservationForm = () => {
 
   const formatPreferredDateTime = (date, start, end) => {
     if (!date || !start || !end) return '';
-    const formattedDate = date instanceof Date ? date.toISOString().split('T')[0] : date;
-    return `${formattedDate} ${start}-${end}`;
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day} ${start}-${end}`;
   };
  
   const onSubmit = async(data) => {
@@ -151,7 +154,7 @@ const ModernReservationForm = () => {
       ...data,
       preferredDateTime: formattedDateTime
     };
-    
+
     // リクエストデータを準備
     const requestData = {
       body: JSON.stringify(data),
