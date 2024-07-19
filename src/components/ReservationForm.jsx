@@ -120,6 +120,10 @@ const ModernReservationForm = () => {
 
   const apiGatewayUrl = 'https://tj3alvdeza.execute-api.ap-northeast-1.amazonaws.com/development/send';
 
+  const selectedDate = watch('preferredDateTime');
+  const startTime = watch('startTime');
+  const endTime = watch('endTime');
+
   const generateTimeOptions = () => {
     const options = [];
     for (let i = 0; i < 24; i++) {
@@ -134,13 +138,24 @@ const ModernReservationForm = () => {
 
   const timeOptions = generateTimeOptions();
 
+  const formatPreferredDateTime = (date, start, end) => {
+    if (!date || !start || !end) return '';
+    const formattedDate = date.toISOString().split('T')[0]; // YYYY-MM-DD
+    return `${formattedDate} ${start}-${end}`;
+  };
+ 
   const onSubmit = async(data) => {
+    const formattedDateTime = formatPreferredDateTime(data.preferredDateTime, data.startTime, data.endTime);
+    const submissionData = {
+      ...data,
+      preferredDateTime: formattedDateTime
+    };
     // リクエストデータを準備
-      const requestData = {
-        body: JSON.stringify(data),
-        httpMethod:'POST',
-        resource: '/send'
-      };
+    const requestData = {
+      body: JSON.stringify(data),
+      httpMethod:'POST',
+      resource: '/send'
+    };
   
       console.log('Sending HTTP request:', JSON.stringify(requestData));
   
@@ -338,12 +353,18 @@ const ModernReservationForm = () => {
               </select>
             </div>
           </div>
-          {(errors.reservationDate || errors.startTime || errors.endTime) && (
+          {(errors.preferredDateTime || errors.startTime || errors.endTime) && (
             <p className="mt-1 text-sm text-red-600">
-              {errors.reservationDate?.message || errors.startTime?.message || errors.endTime?.message}
+              {errors.preferredDateTime?.message || errors.startTime?.message || errors.endTime?.message}
             </p>
           )}
         </div>
+
+        {selectedDate && startTime && endTime && (
+          <p className="text-sm text-gray-600">
+            選択された日時: {formatPreferredDateTime(selectedDate, startTime, endTime)}
+          </p>
+        )}
 
         <RadioField
           label="撮影内容"
