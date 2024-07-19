@@ -157,7 +157,7 @@ const ModernReservationForm = () => {
 
     // リクエストデータを準備
     const requestData = {
-      body: JSON.stringify(data),
+      body: JSON.stringify(submissionData),
       httpMethod:'POST',
       resource: '/send'
     };
