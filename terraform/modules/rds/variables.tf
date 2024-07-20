@@ -19,9 +19,14 @@ variable "security_group_id" {
   type        = string
 }
 
-variable "subnet_ids" {
-  description = "A list of subnet IDs for the RDS instance"
-  type        = list(string)
+variable "private_subnet_tokyo" {
+  description = "The private subnet of the Tokyo region"
+  type        = string
+}
+
+variable "private_subnet_osaka" {
+  description = "The private subnet of the Osaka region"
+  type        = string
 }
 
 variable "studio_name" {

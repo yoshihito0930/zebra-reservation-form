@@ -19,10 +19,9 @@ resource "aws_db_instance" "mysql" {
   }
 }
 
-// 以下のサブネットについては別モジュールで定義する
 resource "aws_db_subnet_group" "main" {
   name       = "${var.studio_name}-rds-subnet-group"
-  subnet_ids = var.subnet_ids
+  subnet_ids = [var.private_subnet_tokyo, var.private_subnet_osaka]
 
   tags = {
     Name = "${var.studio_name}-rds-subnet-group"
