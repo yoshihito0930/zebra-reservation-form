@@ -115,6 +115,33 @@ resource "aws_iam_access_key" "github_actions_access_key" {
   user = aws_iam_user.github_actions_user.name
 }
 
+# Aurora
+resource "aws_iam_role" "rds_iam_role" {
+  name = "${var.studio_name}-rds-iam-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "rds.amazonaws.com"
+        }
+      }
+    ]
+  })
+
+  tags = {
+    Name = "${var.studio_name}-rds-iam-role"
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "rds_iam_role_policy" {
+  role       = aws_iam_role.rds_iam_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
+}
+
 output "aws_access_key_id" {
   value = aws_iam_access_key.github_actions_access_key.id
 }

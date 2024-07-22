@@ -54,40 +54,13 @@ resource "aws_subnet" "private_1c" {
   }
 }
 
-// RDS VPCエンドポイント (ap-northeast-1a)
-resource "aws_vpc_endpoint" "rds_northeast_1a" {
-  vpc_id       = aws_vpc.main.id
-  service_name = "com.amazonaws.ap-northeast-1.rds"
-  vpc_endpoint_type = "Interface"
-  subnet_ids   = [aws_subnet.public_1a.id, aws_subnet.private_1c.id]
-
-  security_group_ids = [aws_security_group.rds_endpoint_sg.id]
-
-  tags = {
-    Name = "${var.studio_name}-rds-endpoint-northeast-1"
-  }
-}
-
-resource "aws_vpc_endpoint" "rds_northeast_1c" {
-  vpc_id       = aws_vpc.main.id
-  service_name = "com.amazonaws.ap-northeast-1.rds"
-  vpc_endpoint_type = "Interface"
-  subnet_ids   = [aws_subnet.public_1c.id, aws_subnet.private_1a.id]
-
-  security_group_ids = [aws_security_group.rds_endpoint_sg.id]
-
-  tags = {
-    Name = "${var.studio_name}-rds-endpoint-northeast-1c"
-  }
-}
-
 // セキュリティグループ
 resource "aws_security_group" "rds_endpoint_sg" {
   vpc_id = aws_vpc.main.id
 
   ingress {
-    from_port   = 443
-    to_port     = 443
+    from_port   = 3306
+    to_port     = 3306
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/16"]
   }
@@ -102,4 +75,38 @@ resource "aws_security_group" "rds_endpoint_sg" {
   tags = {
     Name = "${var.studio_name}-rds-endpoint-sg"
   }
+}
+
+// LambdaとAuroraを接続するためのSG
+resource "aws_security_group" "lambda_sg" {
+  name        = "${var.studio_name}-lambda-sg"
+  description = "Security group for Lambda"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "${var.studio_name}-lambda-sg"
+  }
+}
+
+resource "aws_security_group_rule" "allow_lambda_to_rds" {
+  type                     = "ingress"
+  from_port                = 3306
+  to_port                  = 3306
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.rds_endpoint_sg.id
+  source_security_group_id = aws_security_group.lambda_sg.id
 }

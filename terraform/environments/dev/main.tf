@@ -2,6 +2,8 @@ module "iam" {
     source                        = "../../modules/iam"
     admin-user                    = var.admin-user
     cloudfront_distribution_arn   = module.cloudfront_distribution.cloudfront_distribution_arn
+    studio_name                   = var.studio_name
+
 }
 
 module "s3_bucket" {
@@ -29,12 +31,17 @@ module "route53" {
 }
 
 module "lambda_apigateway" {
-    source = "../../modules/lambda_apigateway"
+    source              = "../../modules/lambda_apigateway"
+}
+
+module "lambda_aurora" {
+    source              = "../../modules/lambda_aurora"
+    studio_name         = var.studio_name
 }
 
 module "network" {
-    source = "../../modules/network"
-    studio_name             = var.studio_name
+    source          = "../../modules/network"
+    studio_name     = var.studio_name
 
 }
 
