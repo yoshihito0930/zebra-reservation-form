@@ -4,7 +4,7 @@ resource "aws_db_instance" "mysql" {
   engine               = "mysql"
   engine_version       = "8.0"
   instance_class       = "db.t3.micro"
-  name                 = var.db_name
+  identifier           = var.db_identifier
   username             = var.db_username
   password             = var.db_password
   parameter_group_name = "default.mysql8.0"
@@ -21,7 +21,7 @@ resource "aws_db_instance" "mysql" {
 
 resource "aws_db_subnet_group" "main" {
   name       = "${var.studio_name}-rds-subnet-group"
-  subnet_ids = [var.private_subnet_tokyo, var.private_subnet_osaka]
+  subnet_ids = [var.private_subnet_1a, var.private_subnet_1c]
 
   tags = {
     Name = "${var.studio_name}-rds-subnet-group"

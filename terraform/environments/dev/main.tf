@@ -32,6 +32,19 @@ module "lambda_apigateway" {
     source = "../../modules/lambda_apigateway"
 }
 
+module "network" {
+    source = "../../modules/network"
+    studio_name             = var.studio_name
+
+}
+
 module "rds" {
-    source = "../../modules/rds"
+    source                  = "../../modules/rds"
+    studio_name             = var.studio_name
+    db_identifier           = var.db_identifier
+    db_username             = var.db_username
+    db_password             = var.db_password
+    security_group_id       = module.network.security_group_rds_endpoint_id
+    private_subnet_1a       = module.network.private_subnet_1a
+    private_subnet_1c       = module.network.private_subnet_1c
 }

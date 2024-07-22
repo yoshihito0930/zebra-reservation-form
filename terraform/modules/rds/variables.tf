@@ -1,5 +1,5 @@
-variable "db_name" {
-  description = "The name of the database"
+variable "db_identifier" {
+  description = "The identifier for the RDS database"
   type        = string
 }
 
@@ -19,13 +19,13 @@ variable "security_group_id" {
   type        = string
 }
 
-variable "private_subnet_tokyo" {
-  description = "The private subnet of the Tokyo region"
+variable "private_subnet_1a" {
+  description = "The private subnet of the private_subnet_1a"
   type        = string
 }
 
-variable "private_subnet_osaka" {
-  description = "The private subnet of the Osaka region"
+variable "private_subnet_1c" {
+  description = "The private subnet of the private_subnet_1c"
   type        = string
 }
 

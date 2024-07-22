@@ -17,3 +17,20 @@ variable "admin-user" {
   description = "The user name of administrator (e.g., zebra-admin)"
   type        = string
 }
+
+# RDS
+variable "db_identifier" {
+  description = "The identifier for the RDS database"
+  type        = string
+}
+
+variable "db_username" {
+  description = "The username for the database"
+  type        = string
+}
+
+variable "db_password" {
+  description = "The password for the database"
+  type        = string
+  sensitive   = true
+}

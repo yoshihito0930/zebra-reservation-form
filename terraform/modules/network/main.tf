@@ -6,58 +6,60 @@ resource "aws_vpc" "main" {
   }
 }
 
-// 東京リージョン
-resource "aws_subnet" "public_tokyo" {
+resource "aws_subnet" "public_1a" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.1.0/24"
   availability_zone = "ap-northeast-1a"
   map_public_ip_on_launch = false
+  depends_on = [aws_vpc.main]
 
   tags = {
-    Name = "${var.studio_name}-public-subnet-a"
+    Name = "${var.studio_name}-public-subnet-ap-northeast-1a"
   }
 }
 
-resource "aws_subnet" "private_tokyo" {
+resource "aws_subnet" "private_1a" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.2.0/24"
   availability_zone = "ap-northeast-1a"
   map_public_ip_on_launch = false
+  depends_on = [aws_vpc.main]
 
   tags = {
-    Name = "${var.studio_name}-private-subnet-a"
+    Name = "${var.studio_name}-private-subnet-ap-northeast-1a"
   }
 }
 
-// 大阪リージョン
-resource "aws_subnet" "public_osaka" {
+resource "aws_subnet" "public_1c" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.3.0/24"
-  availability_zone = "ap-northeast-3a"
+  availability_zone = "ap-northeast-1c"
   map_public_ip_on_launch = false
+  depends_on = [aws_vpc.main]
 
   tags = {
-    Name = "${var.studio_name}-public-subnet-b"
+    Name = "${var.studio_name}-public-subnet-ap-northeast-1c"
   }
 }
 
-resource "aws_subnet" "private_osaka" {
+resource "aws_subnet" "private_1c" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.4.0/24"
-  availability_zone = "ap-northeast-3a"
+  availability_zone = "ap-northeast-1c"
   map_public_ip_on_launch = false
+  depends_on = [aws_vpc.main]
 
   tags = {
-    Name = "${var.studio_name}-private-subnet-b"
+    Name = "${var.studio_name}-private-subnet-ap-northeast-1c"
   }
 }
 
-// RDS VPCエンドポイント (ap-northeast-1)
-resource "aws_vpc_endpoint" "rds_northeast_1" {
+// RDS VPCエンドポイント (ap-northeast-1a)
+resource "aws_vpc_endpoint" "rds_northeast_1a" {
   vpc_id       = aws_vpc.main.id
   service_name = "com.amazonaws.ap-northeast-1.rds"
   vpc_endpoint_type = "Interface"
-  subnet_ids   = [aws_subnet.public_tokyo.id, aws_subnet.private_tokyo.id]
+  subnet_ids   = [aws_subnet.public_1a.id, aws_subnet.private_1c.id]
 
   security_group_ids = [aws_security_group.rds_endpoint_sg.id]
 
@@ -66,17 +68,16 @@ resource "aws_vpc_endpoint" "rds_northeast_1" {
   }
 }
 
-// RDS VPCエンドポイント (ap-northeast-3)
-resource "aws_vpc_endpoint" "rds_northeast_3" {
+resource "aws_vpc_endpoint" "rds_northeast_1c" {
   vpc_id       = aws_vpc.main.id
-  service_name = "com.amazonaws.ap-northeast-3.rds"
+  service_name = "com.amazonaws.ap-northeast-1.rds"
   vpc_endpoint_type = "Interface"
-  subnet_ids   = [aws_subnet.public_osaka.id, aws_subnet.private_osaka.id]
+  subnet_ids   = [aws_subnet.public_1c.id, aws_subnet.private_1a.id]
 
   security_group_ids = [aws_security_group.rds_endpoint_sg.id]
 
   tags = {
-    Name = "${var.studio_name}-rds-endpoint-northeast-3"
+    Name = "${var.studio_name}-rds-endpoint-northeast-1c"
   }
 }
 
