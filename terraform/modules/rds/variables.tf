@@ -14,18 +14,18 @@ variable "db_password" {
   sensitive   = true
 }
 
-variable "security_group_id" {
-  description = "The security group ID for the RDS instance"
+variable "security_group_aurora_mysql_id" {
+  description = "The security group ID for the aurora instance"
   type        = string
 }
 
-variable "private_subnet_1a" {
-  description = "The private subnet of the private_subnet_1a"
+variable "private_subnet_1a_id" {
+  description = "The private subnet id of the private_subnet_1a"
   type        = string
 }
 
-variable "private_subnet_1c" {
-  description = "The private subnet of the private_subnet_1c"
+variable "private_subnet_1c_id" {
+  description = "The private subnet id of the private_subnet_1c"
   type        = string
 }
 

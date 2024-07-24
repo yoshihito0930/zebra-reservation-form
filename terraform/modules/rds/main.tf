@@ -4,8 +4,8 @@ resource "aws_rds_cluster" "aurora" {
   engine_version          = "8.0.mysql_aurora.3.07.0"
   master_username         = var.db_username
   master_password         = var.db_password
-  db_subnet_group_name    = aws_db_subnet_group.main.name
-  vpc_security_group_ids  = [var.security_group_id]
+  db_subnet_group_name    = aws_db_subnet_group.aurora.name
+  vpc_security_group_ids  = [var.security_group_aurora_mysql_id]
   skip_final_snapshot     = true
   storage_encrypted       = true
   backup_retention_period = 3  // バックアップを保持する日数
@@ -14,7 +14,7 @@ resource "aws_rds_cluster" "aurora" {
 
 
   serverlessv2_scaling_configuration {
-    max_capacity             = 2
+    max_capacity             = 1.0
     min_capacity             = 0.5
   }
 
@@ -36,12 +36,12 @@ resource "aws_rds_cluster_instance" "aurora_instance" {
   }
 }
 
-resource "aws_db_subnet_group" "main" {
-  name       = "${var.studio_name}-rds-subnet-group"
-  subnet_ids = [var.private_subnet_1a, var.private_subnet_1c]
+resource "aws_db_subnet_group" "aurora" {
+  name       = "${var.studio_name}-aurora-subnet-group"
+  subnet_ids = [var.private_subnet_1a_id, var.private_subnet_1c_id]
 
   tags = {
-    Name = "${var.studio_name}-rds-subnet-group"
+    Name = "${var.studio_name}-aurora-subnet-group"
   }
 }
 

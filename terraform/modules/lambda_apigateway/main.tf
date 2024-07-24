@@ -1,12 +1,3 @@
-# Lambdaイメージコンテナ
-resource "aws_ecr_repository" "zebra-reservation-form" {
-    name                 = "zebra-reservation-form"
-
-    image_scanning_configuration {
-        scan_on_push = true
-    }
-}
-
 # Lambda IAM Role
 resource "aws_iam_role" "LambdaSESMailRole" {
     name                 = "LambdaSESMailRole"
@@ -72,7 +63,7 @@ data "aws_iam_policy_document" "APIGatewayLogs-assume" {
 # Lamnda Function
 resource "aws_lambda_function" "reservationform-send-mail" {
     function_name = "reservationform-send-mail"
-    image_uri     = "${aws_ecr_repository.zebra-reservation-form.repository_url}:latest"
+    image_uri     = "${var.lambda_functions_repository_url}:latest"
     architectures = ["arm64"]
     logging_config {
         log_format = "Text"
