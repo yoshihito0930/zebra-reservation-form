@@ -1,11 +1,21 @@
-output "security_group_aurora_mysql_id" {
-  value = aws_security_group.aurora_mysql_sg.id
-  description = "The security groupe of the RDS Endpoint"
+output "vpc_id" {
+  description = "The ID of the VPC"
+  value       = aws_vpc.main.id
 }
 
-output "fargate_sg_id" {
-  value = aws_security_group.aurora_mysql_sg.id
-  description = "The security groupe id of the Fargate"
+output "security_group_rds_sg_id" {
+  value = aws_security_group.rds_sg.id
+  description = "The security groupe of the RDS"
+}
+
+output "security_group_ecs_sg_id" {
+  value = aws_security_group.ecs_security_group.id
+  description = "The security groupe of the ECS"
+}
+
+output "public_subnet_1a_id" {
+  value = aws_subnet.public_1a.id
+  description = "The public subnet id of the ap-northeast-1a"
 }
 
 output "private_subnet_1a_id" {

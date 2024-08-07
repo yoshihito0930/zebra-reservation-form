@@ -14,8 +14,8 @@ variable "db_password" {
   sensitive   = true
 }
 
-variable "security_group_aurora_mysql_id" {
-  description = "The security group ID for the aurora instance"
+variable "security_group_rds_sg_id" {
+  description = "The security groupe of the RDS"
   type        = string
 }
 

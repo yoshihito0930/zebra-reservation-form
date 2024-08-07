@@ -63,7 +63,7 @@ data "aws_iam_policy_document" "APIGatewayLogs-assume" {
 # Lamnda Function
 resource "aws_lambda_function" "reservationform-send-mail" {
     function_name = "reservationform-send-mail"
-    image_uri     = "${var.lambda_functions_repository_url}:latest"
+    image_uri     = "${var.repository_url}:latest"
     architectures = ["arm64"]
     logging_config {
         log_format = "Text"

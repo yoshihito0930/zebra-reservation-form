@@ -1,10 +1,5 @@
-variable "port_forwarder_repository_url" {
-  description = "The repository uri of the port forwarder"
-  type        = string
-}
-
-variable "aurora_endpoint" {
-  description = "The endpoint of Aurora"
+variable "studio_name" {
+  description = "The name of studio (e.g., studio-zebra)"
   type        = string
 }
 
@@ -18,12 +13,23 @@ variable "private_subnet_1c_id" {
   type        = string
 }
 
-variable "fargate_sg_id" {
-  description = "The security groupe id of the Fargate"
+variable "security_group_ecs_sg_id" {
+  description = "The security groupe of the ECS"
   type        = string
 }
 
-variable "studio_name" {
-  description = "The name of studio (e.g., studio-zebra)"
+variable "repository_url" {
+  description = "The repository uri"
   type        = string
 }
+/*
+  variable "rds_instance_arn" {
+    description = "The ARN for the RDS instance"
+    type        = string
+  }
+
+  variable "rds_access_repository_url" {
+    description = "The repository_url for the RDS access"
+    type        = string
+  }
+*/

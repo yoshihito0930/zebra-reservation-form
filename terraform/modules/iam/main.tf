@@ -115,7 +115,7 @@ resource "aws_iam_access_key" "github_actions_access_key" {
   user = aws_iam_user.github_actions_user.name
 }
 
-# Aurora
+# RDS
 resource "aws_iam_role" "rds_iam_role" {
   name = "${var.studio_name}-rds-iam-role"
 
@@ -142,11 +142,26 @@ resource "aws_iam_role_policy_attachment" "rds_iam_role_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole"
 }
 
-output "aws_access_key_id" {
-  value = aws_iam_access_key.github_actions_access_key.id
+# Systems Manager用のIAMロールの作成
+resource "aws_iam_role" "ssm_role" {
+  name = "ssm-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+      }
+    ]
+  })
 }
 
-output "aws_secret_access_key" {
-  value     = aws_iam_access_key.github_actions_access_key.secret
-  sensitive = true
+# Systems Manager用のIAMポリシーのアタッチ
+resource "aws_iam_role_policy_attachment" "ssm_policy" {
+  role       = aws_iam_role.ssm_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }

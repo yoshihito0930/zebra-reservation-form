@@ -9,6 +9,4 @@ admin-user          = "zebra-admin"
 
 db_identifier           = "reservation-info-db"
 
-db_username             = "reserve_admin"
-
 db_password             = "Password"

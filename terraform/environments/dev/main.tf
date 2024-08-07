@@ -32,7 +32,7 @@ module "route53" {
 
 module "lambda_apigateway" {
     source                          = "../../modules/lambda_apigateway"
-    lambda_functions_repository_url = module.ecr.lambda_functions_repository_url
+    repository_url                  = module.ecr.repository_url
     depends_on                      = [module.ecr]
 }
 
@@ -47,16 +47,18 @@ module "network" {
 
 }
 
+/*
 module "rds" {
     source                          = "../../modules/rds"
     studio_name                     = var.studio_name
     db_identifier                   = var.db_identifier
     db_username                     = var.db_username
     db_password                     = var.db_password
-    security_group_aurora_mysql_id  = module.network.security_group_aurora_mysql_id
+    security_group_rds_sg_id        = module.network.security_group_rds_sg_id
     private_subnet_1a_id            = module.network.private_subnet_1a_id
     private_subnet_1c_id            = module.network.private_subnet_1c_id
 }
+*/
 
 module "ecr" {
     source                  = "../../modules/ecr"
@@ -67,7 +69,6 @@ module "ecs" {
     studio_name                         = var.studio_name
     private_subnet_1a_id                = module.network.private_subnet_1a_id
     private_subnet_1c_id                = module.network.private_subnet_1c_id
-    fargate_sg_id                       = module.network.fargate_sg_id
-    port_forwarder_repository_url       = module.ecr.port_forwarder_repository_url
-    aurora_endpoint                     = module.rds.aurora_endpoint
+    security_group_ecs_sg_id            = module.network.security_group_ecs_sg_id
+    repository_url                      = module.ecr.repository_url
 }

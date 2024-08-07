@@ -1,4 +1,4 @@
-variable "lambda_functions_repository_url" {
-  description = "The repository uri of the lambda functions"
+variable "repository_url" {
+  description = "The repository uri"
   type = string
 }
