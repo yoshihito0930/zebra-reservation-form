@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Reservation Form",
   "main": "index.js",
+  "homepage": "https://studiozebra-1st-dev.com/reservation-form",
   "dependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
