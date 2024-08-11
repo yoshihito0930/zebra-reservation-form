@@ -65,20 +65,22 @@ resource "aws_route53_record" "studiozebra-1st-dev-CNAME-5" {
 resource "aws_route53_record" "studiozebra-1st-dev-A" {
   alias {
     evaluate_target_health = "false"
-    name                   = "d3g894tijse4w5.cloudfront.net"
-    zone_id                = "Z2FDTNDATAQYW2"
+    name                   = var.cloudfront_distribution_name
+    zone_id                = var.cloudfront_distribution_hosted_zone_id
   }
 
-  name                             = "reservation-form.${var.host_name}"
+  name                             = "${var.host_name}"
   type                             = "A"
-  zone_id                          = "${aws_route53_zone.hostzone-zebra.zone_id}"
+  zone_id                          = aws_route53_zone.hostzone-zebra.zone_id
 }
 
 # ACM
 resource "aws_acm_certificate" "cert" {
   provider          = aws.acm_provider
-  domain_name       = "*.${var.host_name}"
+  domain_name       = "${var.host_name}"
   validation_method = "DNS"
+
+  subject_alternative_names = ["*.studiozebra-1st-dev.com"]
 
   tags = {
     Name            = var.host_name
@@ -87,4 +89,29 @@ resource "aws_acm_certificate" "cert" {
   lifecycle {
     create_before_destroy = true
   }
+}
+
+# Route 53 でのドメイン検証レコードの設定
+resource "aws_route53_record" "cert_validation" {
+  for_each = {
+    for dvo in aws_acm_certificate.cert.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
+    }
+  }
+
+  allow_overwrite = true
+  name            = each.value.name
+  records         = [each.value.record]
+  ttl             = 60
+  type            = each.value.type
+  zone_id         = aws_route53_zone.hostzone-zebra.zone_id
+}
+
+# 証明書の検証完了を待つ
+resource "aws_acm_certificate_validation" "cert" {
+  provider                = aws.acm_provider
+  certificate_arn         = aws_acm_certificate.cert.arn
+  validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
 }

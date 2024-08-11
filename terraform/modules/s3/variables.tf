@@ -7,3 +7,8 @@ variable "cloudfront_distribution_arn" {
   description = "The ARN of the CloudFront distribution"
   type        = string
 }
+
+variable "host_name" {
+  description = "The host name of studio (e.g., studiozebra-1st-dev.com)"
+  type        = string
+}
