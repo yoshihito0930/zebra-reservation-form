@@ -8,6 +8,17 @@ resource "aws_s3_bucket" "reservation-form" {
     bucket = "${var.studio_name}-reservation-form"
 }
 
+# object
+resource "aws_s3_object" "reserv_form" {
+  bucket = aws_s3_bucket.reservation-form.id
+  key    = "reservation-form/"
+}
+
+resource "aws_s3_object" "form_builder" {
+  bucket = aws_s3_bucket.reservation-form.id
+  key    = "form-builder/"
+}
+
 # CORSルール
 resource "aws_s3_bucket_cors_configuration" "cors-rule" {
     bucket = aws_s3_bucket.reservation-form.id
