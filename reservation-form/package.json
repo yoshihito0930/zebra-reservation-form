@@ -2,6 +2,7 @@
   "name": "reservation-form",
   "version": "1.0.0",
   "description": "Reservation Form",
+  "homepage": "/reservation-form/",
   "main": "index.js",
   "dependencies": {
     "react": "^17.0.2",
