@@ -52,7 +52,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install Dependencies
+    - name: Navigate to reservation-form directory
+        run: cd reservation-form
+    
+    - name: Install Dependencies
+        working-directory: ./reservation-form
         run: |
           npm ci
           npm install react@18 react-dom@18 --legacy-peer-deps
@@ -60,12 +64,14 @@ jobs:
           npm install framer-motion lucide-react react-datepicker --legacy-peer-deps
 
       - name: Setup Tailwind CSS
+        working-directory: ./reservation-form
         run: |
           npx tailwindcss init -p
-          echo "module.exports = {content: ['./reservation-form/src/**/*.{js,jsx,ts,tsx}'],theme: {extend: {},},plugins: [],}" > tailwind.config.js
-          echo "@tailwind base;@tailwind components;@tailwind utilities;" > reservation-form/src/index.css
+          echo "module.exports = {content: ['./src/**/*.{js,jsx,ts,tsx}'],theme: {extend: {},},plugins: [],}" > tailwind.config.js
+          echo "@tailwind base;@tailwind components;@tailwind utilities;" > src/index.css
 
       - name: Build
+        working-directory: ./reservation-form
         run: npm run build
 
       - name: Configure AWS CLI
@@ -77,7 +83,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          aws s3 sync --delete --region ap-northeast-1 --exclude "README.md" ./build s3://studiozebra-1st-reservation-form/reservation-form
+          aws s3 sync --delete --region ap-northeast-1 --exclude "README.md" ./reservation-form/build s3://studiozebra-1st-reservation-form/reservation-form
 
       - name: Invalidate CloudFront cache
         run: aws cloudfront create-invalidation --distribution-id E36NOONM5TQTGN --paths "/*"
