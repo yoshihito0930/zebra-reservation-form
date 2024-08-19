@@ -52,10 +52,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-    - name: Navigate to reservation-form directory
+      - name: Navigate to reservation-form directory
         run: cd reservation-form
     
-    - name: Install Dependencies
+      - name: Install Dependencies
         working-directory: ./reservation-form
         run: |
           npm ci
