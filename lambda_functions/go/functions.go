@@ -143,6 +143,7 @@ func Email(ctx context.Context, request events.APIGatewayProxyRequest) (events.A
 	destination := &types.Destination{
 		// ToAddresses: []string{"yoshihito.093079@gmail.com"},
 		ToAddresses: []string{"studiozebra1st@gmail.com"},
+		ToAddresses: []string{data.Email},
 	}
 
 	// メール送信
