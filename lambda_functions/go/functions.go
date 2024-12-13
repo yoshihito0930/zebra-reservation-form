@@ -138,12 +138,14 @@ func Email(ctx context.Context, request events.APIGatewayProxyRequest) (events.A
 		},
 	}
 
-	// 送信先のメールアドレス
+	// 送信元・送信先のメールアドレス
 	source := "reservation-form@studiozebra-1st-dev.com"
 	destination := &types.Destination{
 		// ToAddresses: []string{"yoshihito.093079@gmail.com"},
-		ToAddresses: []string{"studiozebra1st@gmail.com"},
-		ToAddresses: []string{data.Email},
+		ToAddresses: []string{
+			"studiozebra1st@gmail.com",
+			data.Email,
+		},
 	}
 
 	// メール送信
